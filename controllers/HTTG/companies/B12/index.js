@@ -1,0 +1,1 @@
+exports.B12_BASE_URL = `http://www.b12petroleum.com.vn/DoMucWebAPI/api`;

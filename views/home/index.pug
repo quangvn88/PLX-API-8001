@@ -1,0 +1,27 @@
+extends ../layouts/common
+
+block content
+  //- h1(style='text-align:center;margin-top:40px;font-size:80') Application Mobile Petrolimex
+  .video-responsive
+      iframe(width='560', height='315', src='https://www.youtube.com/embed/Y6yHWmrY8M8', frameborder='0', allow='accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture', allowfullscreen='')
+  .col-xl-12
+    .row
+      table(style='width:100%;')
+        tbody
+          tr
+            td(style='text-align:center;width:50%')
+              p Tải xuống cho Android
+              div(style='display:flex;justify-content: center;')
+                  a(href=`/download/android` style='width:50%' )
+                    img(src='/assets/android.png', 
+                    alt='Android App',
+                    style='width:100%')
+                    p Download
+            td(style='text-align:center;width:50%')
+              p Tải xuống cho iOS
+              div(style='display:flex;justify-content: center;')
+                  a(href='itms-services:///?action=download-manifest&url=https://erp.petrolimex.com.vn/download/ios/manifest.plist' style='width:50%')
+                    img(src='../../assets/ios.png', 
+                    alt='iOS App',
+                    style='width:75%')
+                    p Download

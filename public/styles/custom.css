@@ -1,0 +1,51 @@
+.video-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
+.video-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+.container p{
+    font-size: 40;
+}
+.row{
+	justify-content: center;
+	bottom: 0;
+}
+.row p {
+	font-size: 50;
+}
+.image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.guide{
+	margin-top: 10px;
+	margin-left:20px;
+}
+.content {
+	margin-left: 20px
+}
+.content ul li{
+	font-size: 45px;
+}
+.map-responsive{
+    overflow:hidden;
+    padding-bottom:45%;
+    position:relative;
+    height:0;
+   }
+   .map-responsive iframe{
+     top:0;
+      height:100%;
+      width:100%;
+      position:absolute;
+      left:0
+   }
