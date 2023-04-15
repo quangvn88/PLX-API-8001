@@ -58,7 +58,17 @@ const releaseDeliveries = async (req, res) => {
     const userInfo = await getUser(jwtDecoded);
     const reason = req.body.reason || "";
     const vbelns = req.body.vbelns || ""; // Nhiều lệnh xuất
-    if (vbelns) {
+
+    let listVbelns = [];
+    try {
+        listVbelns = vbelns.map((item) => {
+            return item.VBELN;
+        });
+    } catch (error) {
+
+    }
+
+    if (!listVbelns) {
         res.sendStatus(400);
         return;
     }
@@ -68,7 +78,7 @@ const releaseDeliveries = async (req, res) => {
             username: userInfo.username,
             password: userInfo.password,
             serverUrl: serverUrl,
-            vbelns: vbelns,
+            vbelns: listVbelns,
             reason: reason,
         });
 

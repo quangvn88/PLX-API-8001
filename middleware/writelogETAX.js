@@ -5,9 +5,10 @@ module.exports.writeLogETAX = async (req, res, next) => {
     const server = req.params.server || "dev";
     // const user = req.body.username || req.username;
     const url = req.url;
-    loggerETAX.info(`${server} -> ${url}`);
+    // loggerETAX.info(`${server} -> ${url}`);
     let oldSend = res.send;
     res.send = function (data) {
+        loggerETAX.info(`${server} -> ${url}`);
         var dataParse;
         try {
             dataParse = JSON.parse(data)
@@ -38,9 +39,9 @@ module.exports.checkAuthETAX = async (req, res, next) => {
     if (login && password && login === auth.login && password === auth.password) {
         // Access granted...
         return next();
-    // } else if (req.method == "GET") {
-    //     // do form handling
-    //     return next();
+        // } else if (req.method == "GET") {
+        //     // do form handling
+        //     return next();
     } else {
         res.status(401).send("Not authorization")
     }

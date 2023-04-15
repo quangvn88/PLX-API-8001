@@ -5,10 +5,16 @@ const { getUserAuthSAP } = require('../../../scripts/getUserAuthSAP')
 
 const updateInvoiceCheck = function (req, res) {
     const invData = req.body.invData || '';
-    const server = req.body.server;
+    const server = req.body.server || '';
 
     const AUTH = getUserAuthSAP(server);
     const url = API_INVOICE_CHECK_SAVE(server);
+
+    if (!server) {
+        res.sendStatus(404);
+        return;
+    }
+
 
     const data = {
         IT_INV_CHECK: invData,

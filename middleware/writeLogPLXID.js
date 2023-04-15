@@ -7,10 +7,11 @@ module.exports.writeLogPLXID = async (req, res, next) => {
     const server = req.params.server || "dev";
     // const user = req.body.username || req.username;
     const url = req.url;
-    loggerPLXID.info(`${server} -> ${url}`);
+    // loggerPLXID.info(`${server} -> ${url}`);
     let oldSend = res.send;
     res.send = function (data) {
-        var dataParse;
+        loggerPLXID.info(`${server} -> ${url}`);
+        // var dataParse;
         try {
             parser.parseString(data, function (err, result) {
                 const success = result['row']['success'];

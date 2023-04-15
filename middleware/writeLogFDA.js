@@ -5,10 +5,12 @@ module.exports.writeLogCloud = (req, res, next) => {
   const server = req.params.server || "dev";
   //log
   const url = req.url;
-  loggerFDA.info(`FDA ${server} -> ${url} - ${JSON.stringify(req.body)}`);
+  // loggerFDA.info(`FDA ${server} -> ${url} - ${JSON.stringify(req.body)}`);
   let oldSend = res.send;
   res.send = function (data) {
-    loggerFDA.info(data);
+    loggerFDA.info(`${server} -> ${url} - ${JSON.stringify(req.body)}`);
+    loggerFDA.info(`${res.statusCode} ${data}`);
+
     oldSend.apply(res, arguments);
   };
   // Check auth
@@ -39,12 +41,16 @@ module.exports.writeLogOnprem = (req, res, next) => {
   const server = req.params.server || "dev";
   //log
   const url = req.url;
-  loggerFDA.info(
-    `FDA onprem ${server} -> ${url} - ${JSON.stringify(req.body)}`
-  );
+  // loggerFDA.info(
+  //   `onprem ${server} -> ${url} - ${JSON.stringify(req.body)}`
+  // );
   let oldSend = res.send;
   res.send = function (data) {
-    loggerFDA.info(data);
+    loggerFDA.info(
+      `onprem ${server} -> ${url} - ${JSON.stringify(req.body)}`
+    );
+    loggerFDA.info(`${res.statusCode} ${data}`);
+    // loggerFDA.info(data);
     oldSend.apply(res, arguments);
   };
   // Check auth

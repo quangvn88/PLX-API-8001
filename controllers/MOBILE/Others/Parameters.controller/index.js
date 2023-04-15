@@ -11,6 +11,10 @@ const getParameter = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
   const code = req.params.code;
 
+  if (!code) {
+    res.sendStatus(400);
+  }
+
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
   if (userInfo.success) {
@@ -61,6 +65,13 @@ const getParameter = async (req, res) => {
           data: userName,
         });
         break;
+      default:
+        res.json({
+          success: false,
+          msg: "Parameter not found"
+        })
+        break;
+
     }
   } else {
     res.json({

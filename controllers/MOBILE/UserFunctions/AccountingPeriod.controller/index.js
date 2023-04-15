@@ -42,14 +42,14 @@ const saveAccountingPeriod = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const multiBukrs = req.body.multiBukrs;
-  const fromBukrs = req.body.fromBukrs;
-  const toBukrs = req.body.toBukrs;
-  const fromPeriod = req.body.fromPeriod;
-  const toPeriod = req.body.toPeriod;
-  const fromYear = req.body.fromYear;
-  const toYear = req.body.toYear;
-  const type = req.body.type;
+  const multiBukrs = req.body.multiBukrs || "";
+  const fromBukrs = req.body.fromBukrs || "";
+  const toBukrs = req.body.toBukrs || "";
+  const fromPeriod = req.body.fromPeriod || "";
+  const toPeriod = req.body.toPeriod || "";
+  const fromYear = req.body.fromYear || "";
+  const toYear = req.body.toYear || "";
+  const type = req.body.type || "";
 
   if (!fromBukrs && !toBukrs && !multiBukrs) {
     res.sendStatus(400);

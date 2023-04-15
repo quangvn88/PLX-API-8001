@@ -5,18 +5,22 @@ module.exports.writeLogMobile = async (req, res, next) => {
   const server = req.params.server || "dev";
   const user = req.body.username || req.username;
   const url = req.url;
-  loggerMobile.info(`${server} user:${user} -> ${url}`);
+  // loggerMobile.info(`${server} user:${user} -> ${url}`);
   let oldSend = res.send;
-  res.send = function (data) {
-    if (url.includes('login')) {
-      const dataParse = JSON.parse(data)
-      // loggerMobile.info(`login success: ` + dataParse.success);
-      loggerMobile.info(`${req.body.infoDevice || ""} login success: ` + dataParse.success);
 
+  res.send = function (data) {
+    loggerMobile.info(`${server} user:${user} -> ${url}`);
+
+    if (url == '/login') {
+      const dataParse = JSON.parse(data);
+      // loggerMobile.info(`login success: ` + dataParse.success);
+      loggerMobile.info(`${res.statusCode} - ${req.body.infoDevice || ""} login success: ` + dataParse.success);
     } else {
-      loggerMobile.info(data);
+      loggerMobile.info(`${res.statusCode} - ${data}`);
     }
+
     oldSend.apply(res, arguments);
   };
+
   next();
 };

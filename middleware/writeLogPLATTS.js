@@ -5,9 +5,11 @@ module.exports.writeLogPLATTS = async (req, res, next) => {
     const server = req.params.server || "dev";
     // const user = req.body.username || req.username;
     const url = req.url;
-    loggerPLATTS.info(`${server} -> ${url}`);
+    // loggerPLATTS.info(`${server} -> ${url}`);
     let oldSend = res.send;
     res.send = function (data) {
+        loggerPLATTS.info(`${server} -> ${url}`);
+
         var dataParse;
         try {
             dataParse = JSON.parse(data)
@@ -15,10 +17,11 @@ module.exports.writeLogPLATTS = async (req, res, next) => {
             dataParse = data
         }
 
-        if (url.includes('auth')) {
-            loggerPLATTS.info(`get token: ` + dataParse.success);
+        if (url == '/auth') {
+            loggerPLATTS.info(`${res.statusCode} get token: ` + dataParse.success);
         } else {
-            loggerPLATTS.info(data);
+            loggerFDA.info(`${res.statusCode} ${data}`);
+            // loggerPLATTS.info(data);
         }
         oldSend.apply(res, arguments);
     };

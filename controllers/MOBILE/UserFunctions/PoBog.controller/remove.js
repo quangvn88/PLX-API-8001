@@ -1,12 +1,33 @@
 const axios = require("axios");
+const { API_MOBILE } = require("../../../../api/MOBILE_API");
+const { getUser } = require("../../../../scripts/getUser");
 
-module.exports.remove = async ({
-  username,
-  password,
-  bedat,
-  timef,
-  serverUrl,
-}) => {
+const deletePoBog = async (req, res) => {
+  const jwtDecoded = req.jwtDecoded;
+  const serverUrl = API_MOBILE(jwtDecoded.server);
+  const userInfo = await getUser(jwtDecoded);
+
+  const bedat = req.body.bedat;
+  const timef = req.body.timef;
+
+  if (userInfo.success) {
+    const resultDelete = await requestSAP({
+      username: userInfo.username,
+      password: userInfo.password,
+      serverUrl: serverUrl,
+      bedat: bedat,
+      timef: timef,
+    });
+    res.json(resultDelete);
+  } else {
+    res.json({
+      success: false,
+      msg: "Lỗi API",
+    });
+  }
+};
+
+const requestSAP = async ({ username, password, bedat, timef, serverUrl }) => {
   const ZFM = "/ZFM_PO_BOG_DELETE";
   const url = serverUrl + ZFM;
 
@@ -41,3 +62,5 @@ module.exports.remove = async ({
 
   return result;
 };
+
+module.exports = { deletePoBog }

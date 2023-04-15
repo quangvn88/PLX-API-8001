@@ -9,8 +9,14 @@ const getNegativeInventory = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const matnr = req.body.matnr;
-  const plant = req.body.plant;
+  const matnr = req.body.matnr || "";
+  const plant = req.body.plant || "";
+
+  if (!matnr || !plant) {
+    res.sendStatus(400);
+    return;
+  }
+
 
   if (userInfo.success) {
     const infoMatnr = await searchNegative({
@@ -35,9 +41,14 @@ const saveNegativeInventory = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const matnr = req.body.matnr;
-  const werks = req.body.werks;
-  const xmcng = req.body.xmcng;
+  const matnr = req.body.matnr || "";
+  const werks = req.body.werks || "";
+  const xmcng = req.body.xmcng || "";
+
+  if (!matnr || !plant) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const resultCheck = await handle({

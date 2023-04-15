@@ -34,8 +34,13 @@ const saveEgasIntegrateTimeCf = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
+  const arrKyEgas = req.body.arrKyEgas || "";
 
-  const arrKyEgas = req.body.arrKyEgas;
+  if (!arrKyEgas) {
+    res.sendStatus(400);
+    return;
+  }
+
 
   if (userInfo.success) {
     const resultSearch = await saveKyEgas({

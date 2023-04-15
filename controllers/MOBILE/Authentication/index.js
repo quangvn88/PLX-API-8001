@@ -11,12 +11,18 @@ module.exports.authentication = async (req, res) => {
   const server = req.params.server;
   const infoDevice = req.body.infoDevice || "";
 
+  if (!username || !password || !server) {
+    res.sendStatus(400);
+    return;
+  }
+
   const resLogin = await checkLogin({
     username: username ? username.toLowerCase() : "",
     password: password,
     server: server,
     infoDevice: infoDevice
   });
+
   res.json(resLogin);
   // console.log(infoDevice);
   // if (resLogin.success && resLogin.warningLogin) {

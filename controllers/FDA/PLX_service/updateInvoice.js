@@ -7,7 +7,12 @@ const { getUserAuthSAP } = require('../../../scripts/getUserAuthSAP')
 const updateInvoice = function (req, res) {
     const header = req.body.header || '';
     const detail = req.body.detail || '';
-    const server = req.body.server;
+    const server = req.body.server || '';
+
+    if (!server) {
+        res.sendStatus(404);
+        return;
+    }
 
     const AUTH = getUserAuthSAP(server);
 

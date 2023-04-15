@@ -3,10 +3,15 @@ const axios = require('axios');
 const { API_FDA_GET_INVOICE } = require('../../../api/FDA_API');
 
 const getInvoice = function (req, res) {
-    const invid = req.query.invid ? req.query.invid : '';
+    const invid = req.query.invid || "";
+    const server = req.body.server || "";
+    const envir = req.body.envir || "";
+    //character empty return false
+    if (!invid || !server) {
+        res.sendStatus(404);
+        return;
+    };
 
-    const server = req.body.server;
-    const envir = req.body.envir;
     const url = API_FDA_GET_INVOICE(server, envir);
 
     const headers = {

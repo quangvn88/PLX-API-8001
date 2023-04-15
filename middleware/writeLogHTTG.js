@@ -5,9 +5,11 @@ module.exports.writeLogHTTG = async (req, res, next) => {
     const server = req.params.server || "dev";
     // const user = req.body.username || req.username;
     const url = req.url;
-    loggerHTTG.info(`${server} -> ${url}`);
+    // loggerHTTG.info(`${server} -> ${url}`);
     let oldSend = res.send;
     res.send = function (data) {
+        loggerHTTG.info(`${server} -> ${url}`);
+
         var dataParse;
         try {
             dataParse = JSON.parse(data)

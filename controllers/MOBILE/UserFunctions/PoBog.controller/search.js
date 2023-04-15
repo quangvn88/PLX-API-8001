@@ -1,16 +1,44 @@
+const { API_MOBILE } = require("../../../../api/MOBILE_API");
+const { getUser } = require("../../../../scripts/getUser");
+
 const axios = require("axios");
 
-module.exports.search = async ({
-  username,
-  password,
-  gjahr,
-  month,
-  serverUrl,
-}) => {
+const getPoBog = async (req, res) => {
+  const jwtDecoded = req.jwtDecoded;
+  const serverUrl = API_MOBILE(jwtDecoded.server);
+  const userInfo = await getUser(jwtDecoded);
+
+  const gjahr = req.body.gjahr || "";
+  const month = req.body.month || "";
+
+  if (!gjahr || !month) {
+    res.sendStatus(400);
+    return;
+  }
+
+  if (userInfo.success) {
+    const result = await requestSAP({
+      username: userInfo.username,
+      password: userInfo.password,
+      serverUrl: serverUrl,
+      gjahr: gjahr,
+      month: month,
+    });
+
+    res.json(result);
+  } else {
+    res.json({
+      success: false,
+      msg: "Lỗi API",
+    });
+  }
+};
+
+const requestSAP = async ({ username, password, gjahr, month, serverUrl, }) => {
   const ZFM = "/ZFM_PO_BOG_GET";
   const url = serverUrl + ZFM;
 
-  const resultSearch = await axios({
+  const httpResult = await axios({
     method: "get",
     url,
     auth: {
@@ -24,8 +52,6 @@ module.exports.search = async ({
   })
     .then((res) => {
       const data = res.data;
-      // handle data
-      // console.log(data);
       return {
         success: true,
         data: data.DATA,
@@ -39,5 +65,7 @@ module.exports.search = async ({
       };
     });
 
-  return resultSearch;
+  return httpResult;
 };
+
+module.exports = { getPoBog }
