@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const multer = require('multer');
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const https = require("https");
@@ -7,14 +8,18 @@ const fs = require("fs");
 // const helmet = require("helmet");
 // const rateLimit = require("express-rate-limit");
 dotenv.config();
-
+const upload = multer();
 const app = express();
 const PORT = 80;
 const PORT_HTTPS = 443;
 
 // app.use(helmet());
+// for parsing application/xwww-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
+// for parsing application/json
 app.use(bodyParser.json());
+// for parsing multipart/form-data
+app.use(upload.array()); 
 
 app.use(express.static(__dirname + '/public'));
 //HTTPS

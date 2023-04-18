@@ -9,11 +9,16 @@ const getPurchaseOrders = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const fromBukrs = req.body.fromBukrs;
-  const toBukrs = req.body.toBukrs;
-  const fromDate = req.body.fromDate;
-  const toDate = req.body.toDate;
-  const ebeln = req.body.ebeln;
+  const fromBukrs = req.body.fromBukrs || "";
+  const toBukrs = req.body.toBukrs || "";
+  const fromDate = req.body.fromDate || "";
+  const toDate = req.body.toDate || "";
+  const ebeln = req.body.ebeln || "";
+
+  if (!fromDate && !toDate) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const ebelns = await searchOrders({
@@ -40,7 +45,11 @@ const releasePurchaseOrders = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const ebeln = req.body.ebeln;
+  const ebeln = req.body.ebeln || "";
+  if (!ebeln) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const resultRelease = await releaseOrder({

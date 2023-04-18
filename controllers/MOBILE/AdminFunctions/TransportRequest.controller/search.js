@@ -1,7 +1,44 @@
 const axios = require("axios");
 const moment = require("moment");
+const { API_MOBILE } = require("../../../../api/MOBILE_API");
+const { getUser } = require("../../../../scripts/getUser");
 
-module.exports.search = async ({
+module.exports.getRequests = async (req, res) => {
+  const jwtDecoded = req.jwtDecoded;
+  const serverUrl = API_MOBILE(jwtDecoded.server);
+  const userInfo = await getUser(jwtDecoded);
+
+  const fromDate = req.body.fromDate || "";
+  const toDate = req.body.toDate || "";
+  const userRequest = req.body.userRequest || "";
+  const requests = req.body.requests || "";
+
+  if (!fromDate && !toDate) {
+    res.sendStatus(400);
+    return;
+  }
+
+  if (userInfo.success) {
+    const resultRequest = await search({
+      username: userInfo.username,
+      password: userInfo.password,
+      serverUrl: serverUrl || "",
+      fromDate: fromDate || "",
+      toDate: toDate || "",
+      requests: requests || [],//array
+      userRequest: userRequest || ""
+    });
+
+    res.json(resultRequest);
+  } else {
+    res.json({
+      success: false,
+      msg: "Lỗi API",
+    });
+  }
+};
+
+const search = async ({
   username,
   password,
   serverUrl,

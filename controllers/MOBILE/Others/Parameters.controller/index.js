@@ -66,10 +66,11 @@ const getParameter = async (req, res) => {
         });
         break;
       default:
-        res.json({
-          success: false,
-          msg: "Parameter not found"
-        })
+        res.sendStatus(404);
+        // res.json({
+        //   success: false,
+        //   msg: "Parameter not found"
+        // })
         break;
 
     }

@@ -39,9 +39,9 @@ const saveCcodeConfigTransferCT = async (req, res) => {
     const jwtDecoded = req.jwtDecoded;
     const serverUrl = API_MOBILE(jwtDecoded.server);
     const userInfo = await getUser(jwtDecoded);
-    const arrCcodeConfig = req.body.arrCcodeConfig || "";
+    const arrCcodeConfig = req.body.arrCcodeConfig || [];
 
-    if (!arrCcodeConfig) {
+    if (arrCcodeConfig.length == 0) {
         res.sendStatus(400);
         return;
     }

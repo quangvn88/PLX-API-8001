@@ -12,9 +12,9 @@ const getAccountingPeriod = async (req, res) => {
 
   const fromBukrs = req.body.fromBukrs || "";
   const toBukrs = req.body.toBukrs || "";
-  const multiBukrs = req.body.multiBukrs | "";
+  const multiBukrs = req.body.multiBukrs | [];
 
-  if (!fromBukrs && !toBukrs && !multiBukrs) {
+  if (!fromBukrs && !toBukrs && multiBukrs.length == 0) {
     res.sendStatus(400);
     return;
   }
@@ -42,7 +42,7 @@ const saveAccountingPeriod = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const multiBukrs = req.body.multiBukrs || "";
+  const multiBukrs = req.body.multiBukrs || [];
   const fromBukrs = req.body.fromBukrs || "";
   const toBukrs = req.body.toBukrs || "";
   const fromPeriod = req.body.fromPeriod || "";
@@ -51,7 +51,7 @@ const saveAccountingPeriod = async (req, res) => {
   const toYear = req.body.toYear || "";
   const type = req.body.type || "";
 
-  if (!fromBukrs && !toBukrs && !multiBukrs) {
+  if (!fromBukrs && !toBukrs && multiBukrs.length == 0) {
     res.sendStatus(400);
     return;
   }

@@ -26,20 +26,10 @@ module.exports.search = async ({
         data: {
           info: {
             username: data.E_AUTH.UNAME,
-            email: data.E_AUTH.EMAIL ? hideEmail(data.E_AUTH.EMAIL) : "",
+            email: hideEmail(data.E_AUTH.EMAIL),
             twoFA: twoFA,
           },
           auth: { ...auth }
-          // PD_DONHANG: auth.PD_DONHANG,
-          // XUATAM: auth.XUATAM,
-          // KB_POCKG: auth.KB_POCKG,
-          // BC_SLDT: auth.BC_SLDT,
-          // DUYET_TD: auth.DUYET_TD,
-          // MOKHOA: auth.MOKHOA,
-          // MOKY_KHO: auth.MOKY_KHO,
-          // MOKY_KT: auth.MOKY_KT,
-          // BC_TONKHO: auth.BC_TONKHO,
-          // },
         },
       };
       return dataHandled;
@@ -55,8 +45,15 @@ module.exports.search = async ({
   return fullInfo;
 };
 const hideEmail = (email) => {
-  const hide = email.split("@")[0].length - 1; //<-- number of characters to hide
-  const r = new RegExp(".{" + hide + "}@", "g");
-  const emailHidden = email.replace(r, "*****@");
+  let emailHidden;
+
+  try {
+    const hide = email.split("@")[0].length - 1; //<-- number of characters to hide
+    const r = new RegExp(".{" + hide + "}@", "g");
+    emailHidden = email.replace(r, "*****@");
+  } catch (error) {
+
+  }
+
   return emailHidden;
 };

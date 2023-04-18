@@ -17,7 +17,6 @@ const getNegativeInventory = async (req, res) => {
     return;
   }
 
-
   if (userInfo.success) {
     const infoMatnr = await searchNegative({
       username: userInfo.username,
@@ -45,7 +44,7 @@ const saveNegativeInventory = async (req, res) => {
   const werks = req.body.werks || "";
   const xmcng = req.body.xmcng || "";
 
-  if (!matnr || !plant) {
+  if (!matnr || !werks) {
     res.sendStatus(400);
     return;
   }

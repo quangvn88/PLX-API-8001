@@ -9,8 +9,8 @@ const getEgasIntegrateTimeCf = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const fromBukrs = req.body.fromBukrs;
-  const toBukrs = req.body.toBukrs;
+  const fromBukrs = req.body.fromBukrs || "";
+  const toBukrs = req.body.toBukrs || "";
 
   if (userInfo.success) {
     const resultSearch = await searchKyEgas({
@@ -34,13 +34,12 @@ const saveEgasIntegrateTimeCf = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
-  const arrKyEgas = req.body.arrKyEgas || "";
+  const arrKyEgas = req.body.arrKyEgas || [];
 
-  if (!arrKyEgas) {
+  if (arrKyEgas.length == 0) {
     res.sendStatus(400);
     return;
   }
-
 
   if (userInfo.success) {
     const resultSearch = await saveKyEgas({

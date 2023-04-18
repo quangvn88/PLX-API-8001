@@ -12,12 +12,12 @@ const getDeliveries = async (req, res) => {
     // const server = req.params.server;
     // const token = req.header("Authorization").replace("Bearer ", "");
     // console.log(req);
-    const fromBukrs = req.body.fromBukrs;
-    const toBukrs = req.body.toBukrs;
-    const fromDate = req.body.fromDate;
-    const toDate = req.body.toDate;
-    const vbeln = req.body.vbeln;
-    const kunnrs = req.body.kunnrs;
+    const fromBukrs = req.body.fromBukrs || "";
+    const toBukrs = req.body.toBukrs || "";
+    const fromDate = req.body.fromDate || "";
+    const toDate = req.body.toDate || "";
+    const vbeln = req.body.vbeln || "";
+    const kunnrs = req.body.kunnrs || [];
 
     // console.log(fromDate)
     if (!fromDate && !toDate) {
@@ -57,7 +57,7 @@ const releaseDeliveries = async (req, res) => {
     const serverUrl = API_MOBILE(jwtDecoded.server);
     const userInfo = await getUser(jwtDecoded);
     const reason = req.body.reason || "";
-    const vbelns = req.body.vbelns || ""; // Nhiều lệnh xuất
+    const vbelns = req.body.vbelns || []; // Nhiều lệnh xuất
 
     let listVbelns = [];
     try {
@@ -68,7 +68,7 @@ const releaseDeliveries = async (req, res) => {
 
     }
 
-    if (!listVbelns) {
+    if (listVbelns.length == 0) {
         res.sendStatus(400);
         return;
     }

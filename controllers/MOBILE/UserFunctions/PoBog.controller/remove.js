@@ -7,8 +7,13 @@ const deletePoBog = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const bedat = req.body.bedat;
-  const timef = req.body.timef;
+  const bedat = req.body.bedat || "";
+  const timef = req.body.timef || "";
+
+  if (!bedat || !timef) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const resultDelete = await requestSAP({

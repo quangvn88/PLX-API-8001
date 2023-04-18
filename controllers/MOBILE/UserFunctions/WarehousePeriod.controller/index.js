@@ -9,8 +9,7 @@ const getWarehousePeriod = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
-
-  const bukrs = req.body.bukrs;
+  const bukrs = req.body.bukrs | "";
 
   if (userInfo.success) {
     const infoWarehouse = await searchWarehouse({
@@ -32,9 +31,9 @@ const saveWarehousePeriod = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const bukrs = req.body.bukrs;
-  const period = req.body.period;
-  const year = req.body.year;
+  const bukrs = req.body.bukrs || "";
+  const period = req.body.period || "";
+  const year = req.body.year || "";
   const xcomp = req.body.xcomp;
   const xinco = req.body.xinco;
   const xmove = req.body.xmove;

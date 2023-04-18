@@ -6,7 +6,7 @@ const getInvoice = function (req, res) {
     const invid = req.query.invid || "";
     const server = req.body.server || "";
     const envir = req.body.envir || "";
-    //character empty return false
+
     if (!invid || !server) {
         res.sendStatus(404);
         return;

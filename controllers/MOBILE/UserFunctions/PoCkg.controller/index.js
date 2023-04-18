@@ -10,8 +10,13 @@ const getPoCkg = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const gjahr = req.body.gjahr;
-  const month = req.body.month;
+  const gjahr = req.body.gjahr || "";
+  const month = req.body.month || "";
+
+  if (!gjahr || !month) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const resultSearch = await search({
@@ -36,9 +41,14 @@ const createPoCkg = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const bedat = req.body.bedat;
-  const timef = req.body.timef;
-  const period = req.body.period;
+  const bedat = req.body.bedat || "";
+  const timef = req.body.timef || "";
+  const period = req.body.period || "";
+
+  if (!bedat || !timef || !period) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const resultCreate = await create({
@@ -63,8 +73,13 @@ const deletePoCkg = async (req, res) => {
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
 
-  const bedat = req.body.bedat;
-  const timef = req.body.timef;
+  const bedat = req.body.bedat || "";
+  const timef = req.body.timef || "";
+
+  if (!bedat || !timef) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const resultDelete = await remove({

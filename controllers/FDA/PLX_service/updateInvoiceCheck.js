@@ -4,7 +4,7 @@ const { API_INVOICE_CHECK_SAVE } = require('../../../api/FDA_API');
 const { getUserAuthSAP } = require('../../../scripts/getUserAuthSAP')
 
 const updateInvoiceCheck = function (req, res) {
-    const invData = req.body.invData || '';
+    const invData = req.body.invData || {};
     const server = req.body.server || '';
 
     const AUTH = getUserAuthSAP(server);
@@ -15,9 +15,11 @@ const updateInvoiceCheck = function (req, res) {
         return;
     }
 
-
+    // console.log(invData)
+    let listInv = [];
+    listInv.push(invData)
     const data = {
-        IT_INV_CHECK: invData,
+        IT_INV_CHECK: listInv,
     };
 
     res.set('Content-Type', 'application/json')
@@ -28,7 +30,7 @@ const updateInvoiceCheck = function (req, res) {
         data: data
     }).then(function (response) {
         const responData = response.data;
-
+        console.log(responData)
         const result = responData.ES_RETURN;
 
         if (result) {

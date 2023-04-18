@@ -8,7 +8,12 @@ const getUserSAP = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
-  const USERNAME = req.body.USERNAME;
+  const USERNAME = req.body.USERNAME || "";
+
+  if (!USERNAME) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const userDetail = await search({
@@ -30,8 +35,12 @@ const unlockUserSAP = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
   const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
-
   const USERNAME = req.body.USERNAME;
+
+  if (!USERNAME) {
+    res.sendStatus(400);
+    return;
+  }
 
   if (userInfo.success) {
     const unlockResult = await unlock({
