@@ -6,8 +6,8 @@ const DownloadController = require("../../controllers/MAIN_SERVER/DownloadAppAnd
 
 router.get("/", (req, res) => {
   res.render("home", {
-    // domain: `https://erp.petrolimex.com.vn`
-    domain: `localhost:8001`
+    domain: `https://erp.petrolimex.com.vn`
+    // domain: `localhost:8001`
   });
 });
 

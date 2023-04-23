@@ -1,5 +1,12 @@
 module.exports.handleError = (error, req, res, next) => {
-  res.status(error.status || 500);
+  const status = (error.status || 500)
+  res.status(status);
+
+  if (status == 404) {
+    res.render("pages/404.pug");
+    return;
+  }
+
   res.json({
     message: error.message,
   });
