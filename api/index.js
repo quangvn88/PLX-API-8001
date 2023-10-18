@@ -1,11 +1,13 @@
 exports.PLX_ORIGINAL_URL = {
-  DEV: "http://10.0.9.74:8031",
-  QAS: "http://10.0.9.83:8021",
+  // DEV: "http://10.0.9.74:8031",
+  DEV: "http://10.200.9.80:8021",
+  QAS: "http://10.200.9.83:8001",
   PRD: "http://sap.petrolimex.com.vn:8001"
 }
 
 exports.FDA_ORIGINAL_URL = {
-  DEV: "http://external-api-fdaplus-demo.xplat.fpt.com.vn",
+  // DEV: "http://external-api-fdaplus-demo.xplat.fpt.com.vn",
+  DEV: "https://5d90-118-69-248-80.ngrok-free.app",
   QAS: "http://external-api-fdaplus-demo.xplat.fpt.com.vn",
   PRD: "https://api.digital-accounting.fpt.com.vn"
 }

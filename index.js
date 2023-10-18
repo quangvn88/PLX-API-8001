@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // for parsing application/json
 app.use(bodyParser.json());
 // for parsing multipart/form-data
-app.use(upload.array()); 
+app.use(upload.array());
 
 app.use(express.static(__dirname + '/public'));
 //HTTPS
@@ -82,14 +82,22 @@ app.use("/:server/httg/api", writeLogHTTG, checkAuthHTTG, routersHTTG);
 const routersPLXID = require("./routes/PLXID");
 const { checkAuthPLXID, writeLogPLXID } = require("./middleware/writelogPLXID");
 app.use("/:server/plxid/api", writeLogPLXID, checkAuthPLXID, routersPLXID)
+
+
+//PLX Public
+const routersPLXService = require("./routes/PLX_SERVICE")
+const { checkAuthPLX, writeLogPLX } = require("./middleware/writeLogPLX");
+app.use("/:server/plx/api", writeLogPLX, checkAuthPLX, routersPLXService)
+
+
 //Handle Error
 app.use((err, req, res, next) => {
   // This check makes sure this is a JSON parsing issue, but it might be
   // coming from any middleware, not just body-parser:
 
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-      console.error(err);
-      return res.sendStatus(400); // Bad request
+    console.error(err);
+    return res.sendStatus(400); // Bad request
   }
 
   next();

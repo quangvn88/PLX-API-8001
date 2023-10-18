@@ -24,7 +24,7 @@ module.exports.getTokenATG = async (req, res) => {
     ).then(function (response) {
         const res = response.data;
         if (res.data) {
-            return { success: true, data: res.data }
+            return { success: true, ...res.data }
         } else {
             return { success: false, message: res.message }
         }

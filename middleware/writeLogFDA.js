@@ -9,7 +9,7 @@ module.exports.writeLogCloud = (req, res, next) => {
   let oldSend = res.send;
   res.send = function (data) {
     loggerFDA.info(`${server} -> ${url} - ${JSON.stringify(req.body)}`);
-    loggerFDA.info(`${res.statusCode} ${data}`);
+    loggerFDA.info(`${res.statusCode} ${res.statusCode == 404 ? "" : data}`);
 
     oldSend.apply(res, arguments);
   };
@@ -49,7 +49,7 @@ module.exports.writeLogOnprem = (req, res, next) => {
     loggerFDA.info(
       `onprem ${server} -> ${url} - ${JSON.stringify(req.body)}`
     );
-    loggerFDA.info(`${res.statusCode} ${data}`);
+    loggerFDA.info(`${res.statusCode} ${res.statusCode == 404 ? "" : data}`);
     // loggerFDA.info(data);
     oldSend.apply(res, arguments);
   };

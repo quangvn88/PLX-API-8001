@@ -27,6 +27,7 @@ router.post("/releaseEbeln", UserFunction.releasePurchaseOrders);
 // new
 router.post("/purchase-orders", UserFunction.getPurchaseOrders);
 router.post("/purchase-order-release", UserFunction.releasePurchaseOrders);
+router.post("/purchase-orders-release", UserFunction.releasePurchaseOrders);
 
 // Po Chu kỳ giá
 router.post("/getPo", UserFunction.getPoCkg);
@@ -65,6 +66,7 @@ router.post("/getWarehouse", UserFunction.getWarehousePeriod);
 router.post("/unlockWarehouse", UserFunction.saveWarehousePeriod);
 // new
 router.post("/warehouse-period", UserFunction.getWarehousePeriod);
+router.post("/warhouse-period-save", UserFunction.saveWarehousePeriod);
 router.post("/warehouse-period-save", UserFunction.saveWarehousePeriod);
 
 // Sản lượng doanh thu

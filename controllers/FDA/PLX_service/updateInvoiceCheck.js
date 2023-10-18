@@ -15,12 +15,13 @@ const updateInvoiceCheck = function (req, res) {
         return;
     }
 
-    // console.log(invData)
     let listInv = [];
     listInv.push(invData)
     const data = {
         IT_INV_CHECK: listInv,
     };
+
+    console.log(data)
 
     res.set('Content-Type', 'application/json')
     axios({

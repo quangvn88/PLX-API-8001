@@ -20,7 +20,7 @@ module.exports.writeLogPLATTS = async (req, res, next) => {
         if (url == '/auth') {
             loggerPLATTS.info(`${res.statusCode} get token: ` + dataParse.success);
         } else {
-            loggerFDA.info(`${res.statusCode} ${data}`);
+            loggerPLATTS.info(`${res.statusCode} ${data}`);
             // loggerPLATTS.info(data);
         }
         oldSend.apply(res, arguments);

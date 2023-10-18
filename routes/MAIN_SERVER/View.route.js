@@ -15,8 +15,11 @@ router.get("/", (req, res) => {
 //   res.render("home/guide");
 // });
 
-router.get("/:server/map", MapController.showMap);
+// router.get("/load-test", (req,res)=>{
 
+// });
+
+router.get("/:server/map", MapController.showMap);
 router.get("/download/android", DownloadController.downloadApp);
 
 
