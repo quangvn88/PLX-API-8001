@@ -92,4 +92,8 @@ router.post("/egas-integrate-timecf-save", UserFunction.saveEgasIntegrateTimeCf)
 router.post("/ccode-config-transfer-ct", UserFunction.getCcodeConfigTransferCT);
 router.post("/ccode-config-transfer-ct-save", UserFunction.saveCcodeConfigTransferCT);
 
+// Điều hành nguồn
+router.post("/dhn-get", UserFunction.getCcodeConfigTransferCT);
+router.post("/dhn-confirm", UserFunction.saveCcodeConfigTransferCT);
+
 module.exports = router;

@@ -1,5 +1,5 @@
 exports.PLX_ORIGINAL_URL = {
-  // DEV: "http://10.0.9.74:8031",
+  DEV: "http://10.200.9.80:8021",
   DEV: "http://10.200.9.80:8021",
   QAS: "http://10.200.9.83:8001",
   PRD: "http://sap.petrolimex.com.vn:8001"
