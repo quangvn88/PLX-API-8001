@@ -6,6 +6,7 @@
 const { checkLogin } = require("./Login.controller");
 
 module.exports.authentication = async (req, res) => {
+  console.log("login");
   const username = req.body.username || "";
   const password = req.body.password || "";
   const server = req.params.server;

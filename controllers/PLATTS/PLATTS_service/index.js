@@ -50,6 +50,8 @@ module.exports.getCurrentValue = function (req, res) {
 
     const url = `${PLATTS_API_URL.API_PLATTS_GET_CURRENT}?field=${FIELD}&filter=${FILTER}`;
 
+    console.log(url)
+
     const headers = {
         'appkey': `${appkey}`,
         'Authorization': `Bearer ${TOKEN}`,

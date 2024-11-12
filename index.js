@@ -15,9 +15,10 @@ const PORT_HTTPS = 443;
 
 // app.use(helmet());
 // for parsing application/xwww-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '100mb' }));
 // for parsing application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '100mb' }));
+
 // for parsing multipart/form-data
 app.use(upload.array());
 
@@ -89,15 +90,29 @@ const routersPLXService = require("./routes/PLX_SERVICE")
 const { checkAuthPLX, writeLogPLX } = require("./middleware/writeLogPLX");
 app.use("/:server/plx/api", writeLogPLX, checkAuthPLX, routersPLXService)
 
+//SMO 
+const { writeLogSMO } = require("./middleware/writelogSMO");
+const routersSMO = require("./routes/SMO")
+app.use("/smo/api", writeLogSMO, routersSMO)
+
+//UBQLV
+// const { writeLogUBQLV } = require("./middleware/writelogUBQLV");
+// const routersUBQLV = require("./routes/UBQLV")
+// app.use("/ubqlv/api", writeLogUBQLV, routersUBQLV)
 
 //Handle Error
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {  
   // This check makes sure this is a JSON parsing issue, but it might be
   // coming from any middleware, not just body-parser:
 
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
     console.error(err);
     return res.sendStatus(400); // Bad request
+  }
+
+  if (err) {
+    console.error(err);
+    return res.status(500).send('Internal Server Error');
   }
 
   next();

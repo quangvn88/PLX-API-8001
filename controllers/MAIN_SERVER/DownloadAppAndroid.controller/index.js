@@ -3,8 +3,15 @@ const mime = require("mime");
 const fs = require("fs");
 
 module.exports.downloadApp = (req, res) => {
-  const fileName = "PetroMobile.apk"
+  let fileName = "PetroMobile.apk"
+  const version = req.params.version ?? "";
 
+  switch (version) {
+    case 'UAT':
+      fileName = "PetroMobileUAT.apk"
+    default:
+      break;
+  }
   try {
     const file = `public/download/android/${fileName}`;
     res.download(file);

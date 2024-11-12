@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 // });
 
 router.get("/:server/map", MapController.showMap);
-router.get("/download/android", DownloadController.downloadApp);
+router.get("/download/android/:version", DownloadController.downloadApp);
 
 
 
