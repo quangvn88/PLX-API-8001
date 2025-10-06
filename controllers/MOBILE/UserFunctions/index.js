@@ -9,6 +9,13 @@ const QuantityRevenue = require("./QuantityRevenue.controller");
 const EgasIntegrateTimeCf = require("./EgasIntegrateTimeCf.controller");
 const UserSAP = require("./UserSAP.controller");
 const WarehousePeriod = require("./WarehousePeriod.controller");
+// ADD 2024
+const DieuHanhNguon = require("./DHN.controller");
+const UnlockXuatHaoHut = require("./UnlockXuatHaoHut.controller");
+const UnlockKiemKeThayDoiGia = require("./UnlockKiemKeThayDoiGia.controller");
+const QuanLyVon = require("./QLV.controller");
+const BogConfirmation = require("./BogConfirmation.controller");
+const OrderPlanning = require("./OrderPlanning.controller");
 
 module.exports = {
     ...AccountingPeriod, // Kỳ kế toán
@@ -22,4 +29,11 @@ module.exports = {
     ...EgasIntegrateTimeCf, // Config Mở thời gian tích hợp SAP - Egas
     ...UserSAP, // User SAP
     ...WarehousePeriod, // Kỳ kho
+    // ADD 2024
+    ...DieuHanhNguon, // Điều hành nguồn
+    ...UnlockXuatHaoHut, // Xuất hao hụt
+    ...UnlockKiemKeThayDoiGia, // Kiểm kê thay đổi giá
+    ...QuanLyVon, // Quản lý vốn
+    ...BogConfirmation, // Mở khóa xác nhận BOG  
+    ...OrderPlanning, // 
 }

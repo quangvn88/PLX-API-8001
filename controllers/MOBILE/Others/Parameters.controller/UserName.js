@@ -1,12 +1,10 @@
 const axios = require("axios");
 
-module.exports.getUserName = async ({ username, password, serverUrl }) => {
-  const ZFM = "/ZFM_DM_USER";
-  const url = serverUrl + ZFM;
+module.exports.getUserName = async ({ username, password, apiSAP }) => {
 
   const userName = await axios({
     method: "get",
-    url,
+    url: apiSAP,
     auth: {
       username: username,
       password: password,

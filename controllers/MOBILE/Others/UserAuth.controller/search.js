@@ -7,8 +7,7 @@ module.exports.search = async ({
   password,
   serverUrl,
 }) => {
-  const ZFM = "/ZFM_MOBILE_AUTH_GET";
-  const url = serverUrl + ZFM;
+  const url = serverUrl;
   const fullInfo = await axios({
     method: "get",
     url,

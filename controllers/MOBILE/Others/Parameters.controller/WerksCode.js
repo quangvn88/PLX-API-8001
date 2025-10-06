@@ -1,12 +1,9 @@
 const axios = require("axios");
 
-module.exports.getWerksCode = async ({ username, password, serverUrl }) => {
-  const ZFM = "/ZFM_DM_WERKS";
-  const url = serverUrl + ZFM;
-
+module.exports.getWerksCode = async ({ username, password, apiSAP }) => {
   const plantCode = await axios({
     method: "get",
-    url,
+    url: apiSAP,
     auth: {
       username: username,
       password: password,

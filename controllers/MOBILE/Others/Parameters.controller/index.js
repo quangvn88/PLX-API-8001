@@ -6,6 +6,54 @@ const { getCompanyCode } = require("./CompanyCode");
 const { getWerksCode } = require("./WerksCode");
 const { getMatnrCode } = require("./MatnrCode");
 const { getUserName } = require("./UserName");
+const { getReportQLV } = require("./ReportQLV");
+const QLV = require("./CompanyQLV");
+const AuthQLV = require("./AuthQLV");
+const PlantRel = require("./PlantRel");
+
+const paramAPI = [
+  {
+    code: "bukrs",
+    handle: getCompanyCode,
+    apiFM: "ZFM_DM_COMPANY"
+  },
+  {
+    code: "werks",
+    handle: getWerksCode,
+    apiFM: "ZFM_DM_WERKS"
+  },
+  {
+    code: "matnr",
+    handle: getMatnrCode,
+    apiFM: "ZFM_DM_MATNR"
+  },
+  {
+    code: "user",
+    handle: getUserName,
+    apiFM: "ZFM_DM_USER"
+  },
+  {
+    code: "qlv-reports",
+    handle: getReportQLV,
+    apiFM: "ZFM_DM_QLV_REPORT"
+  },
+  {
+    code: "qlv-rbunit",
+    handle: QLV.getData,
+    apiFM: "ZFM_DM_QLV_RBUNIT"
+  },
+  {
+    code: "qlv-auth",
+    handle: AuthQLV.getData,
+    apiFM: "ZFM_QLV_AUTH"
+  },
+  {
+    code: "plant-rel",
+    handle: PlantRel.getData,
+    apiFM: "ZFM_DM_PLANT_REL"
+  },
+]
+
 // Router
 const getParameter = async (req, res) => {
   const jwtDecoded = req.jwtDecoded;
@@ -15,64 +63,26 @@ const getParameter = async (req, res) => {
     res.sendStatus(400);
   }
 
-  const serverUrl = API_MOBILE(jwtDecoded.server);
   const userInfo = await getUser(jwtDecoded);
+
   if (userInfo.success) {
-    switch (code) {
-      case "bukrs":
-        const companyCode = await getCompanyCode({
-          serverUrl: serverUrl,
-          username: userInfo.username,
-          password: userInfo.password,
-        });
-        res.json({
-          success: true,
-          data: companyCode,
-        });
-        break;
-      case "plant":
-        const plantCode = await getWerksCode({
-          serverUrl: serverUrl,
-          username: userInfo.username,
-          password: userInfo.password,
-        });
-        res.json({
-          success: true,
-          data: plantCode,
-        });
-        break;
+    const param = paramAPI.find((element) => element.code == code);
 
-      case "matnr":
-        const productCode = await getMatnrCode({
-          serverUrl: serverUrl,
-          username: userInfo.username,
-          password: userInfo.password,
-        });
-        res.json({
-          success: true,
-          data: productCode,
-        });
-        break;
+    if (param) {
+      const apiSAP = API_MOBILE(jwtDecoded.server, param.apiFM);
 
-      case "user":
-        const userName = await getUserName({
-          serverUrl: serverUrl,
-          username: userInfo.username,
-          password: userInfo.password,
-        });
-        res.json({
-          success: true,
-          data: userName,
-        });
-        break;
-      default:
-        res.sendStatus(404);
-        // res.json({
-        //   success: false,
-        //   msg: "Parameter not found"
-        // })
-        break;
+      const paraCode = await param.handle({
+        username: userInfo.username,
+        password: userInfo.password,
+        apiSAP
+      })
 
+      res.json({
+        success: true,
+        data: paraCode,
+      });
+    } else {
+      res.sendStatus(404);
     }
   } else {
     res.json({

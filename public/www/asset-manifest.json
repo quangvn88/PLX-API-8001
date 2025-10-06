@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/app/static/css/main.b8535ccb.css",
+    "main.js": "/app/static/js/main.cb118fa7.js",
+    "static/js/453.016be68c.chunk.js": "/app/static/js/453.016be68c.chunk.js",
+    "static/media/bootstrap-icons.woff?": "/app/static/media/bootstrap-icons.1295669cd4e305c97f2c.woff",
+    "static/media/bootstrap-icons.woff2?": "/app/static/media/bootstrap-icons.92ea18a81d737146ff04.woff2",
+    "static/media/logo_petro.png": "/app/static/media/logo_petro.66a543396354d62c8109.png",
+    "index.html": "/app/index.html",
+    "main.b8535ccb.css.map": "/app/static/css/main.b8535ccb.css.map",
+    "main.cb118fa7.js.map": "/app/static/js/main.cb118fa7.js.map",
+    "453.016be68c.chunk.js.map": "/app/static/js/453.016be68c.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b8535ccb.css",
+    "static/js/main.cb118fa7.js"
+  ]
+}

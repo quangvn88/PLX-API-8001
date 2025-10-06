@@ -9,6 +9,8 @@ const updateInvoice = function (req, res) {
     const detail = req.body.detail || [];
     const server = req.body.server || '';
 
+    console.log('test');
+
     if (!server) {
         res.sendStatus(404);
         return;
@@ -42,6 +44,7 @@ const updateInvoice = function (req, res) {
             res.status(500).json({ TYPE: 'E', message: 'Error API in SAP' })
         }
     }).catch(function (error) {
+        console.log(error);
         const err = error.response;
         const resErr = { TYPE: 'E', message: err.statusText || 'Something went wrong' }
         res.status(500).json(resErr);

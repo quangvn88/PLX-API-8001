@@ -12,9 +12,13 @@ module.exports.writeLogMobile = async (req, res, next) => {
     loggerMobile.info(`${server} user:${user} -> ${url}`);
 
     if (url == '/login') {
-      const dataParse = JSON.parse(data);
-      // loggerMobile.info(`login success: ` + dataParse.success);
-      loggerMobile.info(`${res.statusCode} - ${req.body.infoDevice || ""} login success: ` + dataParse.success);
+      if (res.statusCode != 200) {
+        loggerMobile.info(`${res.statusCode} - ${req.body.infoDevice || ""} `)
+      } else {
+        const dataParse = JSON.parse(data);
+        // loggerMobile.info(`login success: ` + dataParse.success);
+        loggerMobile.info(`${res.statusCode} - ${req.body.infoDevice || ""} login success: ` + dataParse.success);
+      }
     } else {
       loggerMobile.info(`${res.statusCode} - ${data}`);
     }

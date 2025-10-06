@@ -1,12 +1,10 @@
 const axios = require("axios");
 
-module.exports.getMatnrCode = async ({ username, password, serverUrl }) => {
-  const ZFM = "/ZFM_DM_MATNR";
-  const url = serverUrl + ZFM;
+module.exports.getMatnrCode = async ({ username, password, apiSAP }) => {
 
   const productCode = await axios({
     method: "get",
-    url,
+    url: apiSAP,
     auth: {
       username: username,
       password: password,

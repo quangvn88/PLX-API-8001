@@ -23,7 +23,7 @@ module.exports.authentication = function (req, res) {
     const data = qs.stringify({
         'username': username,
         'password': password
-    });
+    });    
 
     axios({
         method: 'post',
@@ -50,6 +50,8 @@ module.exports.getCurrentValue = function (req, res) {
 
     const url = `${PLATTS_API_URL.API_PLATTS_GET_CURRENT}?field=${FIELD}&filter=${FILTER}`;
 
+    console.log(url)
+
     const headers = {
         'appkey': `${appkey}`,
         'Authorization': `Bearer ${TOKEN}`,
@@ -63,8 +65,8 @@ module.exports.getCurrentValue = function (req, res) {
         const data = response.data;
         res.json(data)
     }).catch(function (error) {
-        const resError = error.response;
-        const resStatus = resError.status ? resError.status : 500
+        const resError = error.response || {};
+        const resStatus = resError.status || 500;
         const resData = resError.data ? { success: false, ...resError.data } : { success: false, message: `request faild with ${resError.status}` }
         res.status(resStatus).json(resData)
     });

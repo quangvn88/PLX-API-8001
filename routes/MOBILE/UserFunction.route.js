@@ -90,4 +90,29 @@ router.post("/egas-integrate-timecf-save", UserFunction.saveEgasIntegrateTimeCf)
 router.post("/ccode-config-transfer-ct", UserFunction.getCcodeConfigTransferCT);
 router.post("/ccode-config-transfer-ct-save", UserFunction.saveCcodeConfigTransferCT);
 
+// *ADD 2024 
+// Xuất hao hụt
+router.post("/unlock-loss-issuance", UserFunction.UnlockXuatHaoHut.getData);
+router.post("/unlock-loss-issuance-save", UserFunction.UnlockXuatHaoHut.saveData);
+
+// Điều hành nguồn
+router.post("/dhn-info", UserFunction.getDataDHN);
+router.post("/dhn-confirm", UserFunction.confirmDataDHN);
+
+// Mở khoá xác nhận kiểm kê thay đổi giá
+router.post("/unlock-inventory", UserFunction.UnlockKiemKeThayDoiGia.getData);
+router.post("/unlock-inventory-save", UserFunction.UnlockKiemKeThayDoiGia.saveData);
+
+// Mở khoá xác nhận BOG
+router.post("/bog-confirmation", UserFunction.BogConfirmation.getData);
+router.post("/bog-confirmation-save", UserFunction.BogConfirmation.saveData);
+
+// Xác nhận quản lý vốn
+router.post("/qlv-info", UserFunction.QLV.getData);
+router.post("/qlv-save", UserFunction.QLV.saveData);
+
+//
+router.post("/order-planning", UserFunction.OrderPlanning.getData);
+router.post("/order-planning-save", UserFunction.OrderPlanning.saveData);
+
 module.exports = router;

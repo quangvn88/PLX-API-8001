@@ -5,40 +5,76 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const https = require("https");
 const fs = require("fs");
+const officegen = require('officegen');
+const path = require("path"); 
+const cors = require("cors");
+const fetch = require("node-fetch");
+
 // const helmet = require("helmet");
 // const rateLimit = require("express-rate-limit");
 dotenv.config();
 const upload = multer();
 const app = express();
-const PORT = 80;
-const PORT_HTTPS = 443;
+const PORT = 8001;
+// const PORT_HTTPS = 443;
+
+//Connect DB
+mongoose
+  .connect(process.env.DB_CONNECTION, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("DB connected!"))
+  .catch((err) => {
+    console.log(`DB connection error ` + err);
+  });
+
+app.use(cors());
+
+const { authMiddleware } = require("./middleware/authMiddleware");
+// app.use(authMiddleware);
 
 // app.use(helmet());
 // for parsing application/xwww-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false, limit: '100mb' }));
 // for parsing application/json
-app.use(bodyParser.json());
-// for parsing multipart/form-data
-app.use(upload.array()); 
+app.use(bodyParser.json({ limit: '100mb' }));
 
-app.use(express.static(__dirname + '/public'));
+// app.use(express.bodyParser({limit: '50mb'}))
+// for parsing multipart/form-data
+app.use(upload.array());
+
+// 1. Public folder chung (ảnh, file upload, …)
+app.use(express.static(path.join(__dirname, "public")));
+// 2. React app build (nằm trong public/www) => serve dưới /lims/view
+app.use("/app", express.static(path.join(__dirname, "public", "www")));
+
 //HTTPS
 const options = {
-  key: fs.readFileSync(__dirname + '/ssl/private.key'),
-  cert: fs.readFileSync(__dirname + '/ssl/certificate.crt'),
-  ca: fs.readFileSync(__dirname + '/ssl/ca.crt')
+  key: fs.readFileSync(path.join(__dirname, 'ssl', 'private.key')),
+  cert: fs.readFileSync(path.join(__dirname, 'ssl', 'cert.crt')),
+  ca: fs.readFileSync(path.join(__dirname, 'ssl', 'ca.crt'))
 };
 
 //View web SERVER
 app.set("view engine", "pug");
 app.set("views", "./views");
+
 const routeView = require("./routes/MAIN_SERVER/View.route");
-app.use("", routeView);
+app.use("", (req, res, next) => {
+  // console.log(req)
+  next();
+}, routeView);
 
 require('ssl-root-cas')
   .inject()
   .addFile(__dirname + '/ssl/ca.crt')
   ;
+
+// Middleware ghi log  
+const { writeLogAPI } = require("./middleware/writeLogAPI");
+app.use(writeLogAPI);
 
 //MOBILE
 //Middleware check JWT
@@ -74,6 +110,7 @@ app.use("/:server/platts/api", writeLogPLATTS, checkAuthPLATTS, routersPLATTS);
 const routersHTTG = require("./routes/HTTG");
 const { checkAuthHTTG, writeLogHTTG } = require("./middleware/writelogHTTG");
 app.use("/:server/httg/api", writeLogHTTG, checkAuthHTTG, routersHTTG);
+
 //INTEGRATE - Etax
 // const routersETAX = require("./routes/ETAX");
 // const { checkAuthETAX, writeLogETAX } = require("./middleware/writelogETAX");
@@ -81,40 +118,90 @@ app.use("/:server/httg/api", writeLogHTTG, checkAuthHTTG, routersHTTG);
 //INTEGRATE - PLXID
 const routersPLXID = require("./routes/PLXID");
 const { checkAuthPLXID, writeLogPLXID } = require("./middleware/writelogPLXID");
-app.use("/:server/plxid/api", writeLogPLXID, checkAuthPLXID, routersPLXID)
+app.use("/:server/plxid/api", writeLogPLXID, checkAuthPLXID, routersPLXID);
+
+//SMO 
+const { writeLogSMO } = require("./middleware/writelogSMO");
+const routersSMO = require("./routes/SMO")
+app.use("/smo/api", writeLogSMO, routersSMO)
+
+//QR_CODE
+const routersQRCode = require("./routes/QR_CODE")
+app.use("/api", routersQRCode)
+
+//UBQLV
+// const { writeLogUBQLV } = require("./middleware/writelogUBQLV");
+// const routersUBQLV = require("./routes/UBQLV")
+// app.use("/ubqlv/api", writeLogUBQLV, routersUBQLV)
+
+//PECO
+const routersPECO = require('./routes/PECO')
+app.use("/:server/peco/api", routersPECO);
+
+//B12
+const routersB12 = require('./routes/B12');
+app.use('/b12/api', routersB12);
+
+//DOFFICE
+const routersDOFFICE = require('./routes/DOFFICE');
+const { checkAuth, writeLog } = require("./middleware/writeLogDOFFICE");
+app.use("/:server/doffice/api", writeLog, checkAuth, routersDOFFICE);
+
+// EGAS
+const routersEGAS = require('./routes/EGAS');
+const { checkAuthEGAS, writeLogEGAS } = require("./middleware/writeLogEGAS");
+app.use("/:server/egas/api", writeLogEGAS, checkAuthEGAS, routersEGAS);
+
+// LIMS
+const { checkAuthLIMS, writeLogLIMS } = require("./middleware/writeLogLIMS");
+const routersLIMS = require('./routes/LIMS');
+app.use("/:server/lims/plx/api", writeLogLIMS, checkAuthLIMS, routersLIMS);
+
+// wwww
+app.get("/app/*", (req, res) => {
+  console.log("View LIMS");
+  res.sendFile(path.join(__dirname, "public", "www", "index.html"));
+});
+
+// AUTHOR - login
+const authRoutes = require("./routes/AUTHOR");
+app.use("/:server/plx/login", authRoutes);
+
+// SAP
+const { writeLogSAP } = require("./middleware/writeLogSAP");
+const routersSAP = require('./routes/SAP');
+app.use("/:server/plx/api", authMiddleware, writeLogSAP, routersSAP);
+
 //Handle Error
 app.use((err, req, res, next) => {
   // This check makes sure this is a JSON parsing issue, but it might be
   // coming from any middleware, not just body-parser:
-
-  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
-      console.error(err);
-      return res.sendStatus(400); // Bad request
+  // console.log('error',err);
+  // if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+  //   console.error(err);
+  //   return res.sendStatus(400); // Bad request
+  // } else if (err) {
+  //   console.error(err);
+  //   return res.sendStatus(400); // Bad request
+  // }
+  if (err) {
+    console.error('error request', err);
+    return res.status(500).send('Internal Server Error');
   }
-
-  next();
+  // next();
 });
+
 const { catchError } = require("./helpers/catchError");
 const { handleError } = require("./helpers/handleError");
 app.use(catchError, handleError);
-
-//Connect DB
-mongoose
-  .connect(process.env.DB_CONNECTION, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("DB connected!"))
-  .catch((err) => {
-    console.log(`DB connection error ` + err);
-  });
 
 //Start server
 app.listen(PORT, function () {
   console.log("Server listening on port " + PORT);
 });
 
-https.createServer(options, app).listen(PORT_HTTPS, function () {
-  console.log("Server listening on port 443");
-});
+// https.createServer(options, app).listen(PORT_HTTPS, function () {
+//   console.log("Server listening on port 443");
+// });
+
+

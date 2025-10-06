@@ -32,7 +32,7 @@ module.exports.sapMessage = (text) => {
 };
 
 module.exports.sapMessageErr = (err) => {
-  const messageError = err.message;
+  const messageError = err?.message || "";
   if (messageError.includes("401")) {
     return 'Tài khoản đã đổi mật khẩu'
   } else {

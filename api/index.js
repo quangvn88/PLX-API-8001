@@ -1,6 +1,6 @@
 exports.PLX_ORIGINAL_URL = {
-  DEV: "http://10.0.9.74:8031",
-  QAS: "http://10.0.9.83:8021",
+  DEV: "http://10.200.9.80:8021",
+  QAS: "http://10.200.9.83:8001",
   PRD: "http://sap.petrolimex.com.vn:8001"
 }
 
@@ -26,3 +26,7 @@ exports.ATG_ORIGINAL_URL = {
   PRD: `http://pmhq-api.petrolimex.com.vn`
 }
 
+exports.DOFFICE_ORIGINAL_URL = {
+  UAT: `https://eofficeuat.petrolimex.com.vn/_layouts/15/VuThao.Petrolimex.Guest/API/ApiPublic.ashx`,
+  PRD: `https://eoffice.petrolimex.com.vn/vanban/default.aspx/_layouts/15/VuThao.Petrolimex.Guest/API/ApiPublic.ashx`
+}

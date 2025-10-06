@@ -1,12 +1,9 @@
 const axios = require("axios");
 
-module.exports.getCompanyCode = async ({ serverUrl, username, password }) => {
-  const ZFM = "/ZFM_DM_COMPANY";
-  const url = serverUrl + ZFM;
-
+module.exports.getCompanyCode = async ({ apiSAP, username, password }) => {
   const companyCode = await axios({
     method: "get",
-    url,
+    url: apiSAP,
     auth: {
       username: username,
       password: password,
@@ -23,7 +20,6 @@ module.exports.getCompanyCode = async ({ serverUrl, username, password }) => {
       }
     })
     .catch((err) => {
-      // console.log("getCompanyCode failed");
       return { name: [], code: [], view: false, check: false };
     });
 
