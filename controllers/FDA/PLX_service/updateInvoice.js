@@ -4,10 +4,10 @@ const { API_INVOICE_SAVE } = require('../../../api/FDA_API');
 
 const { getUserAuthSAP } = require('../../../scripts/getUserAuthSAP')
 
-const updateInvoice = function (req, res) {
+const updateInvoice = function (req, res) {        
     const header = req.body.header || {};
     const detail = req.body.detail || [];
-    const server = req.body.server || '';
+    const server = req.body.server || '';    
 
     console.log('test');
 

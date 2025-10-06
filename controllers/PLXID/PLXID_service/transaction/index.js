@@ -21,6 +21,8 @@ module.exports.get_transaction = async (req, res) => {
         query: QUERY_PLXID_TRANS_LOG,
         binds: fromDate && toDate ? [fromDate, toDate] : []
     }
+
+    console.log('transaction')
     const data = await getOracleData(props);
     if (data.success) {
         res.status(200).send(js2xmlparser.parse("row", data));

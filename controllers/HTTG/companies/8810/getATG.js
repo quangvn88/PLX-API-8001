@@ -2,6 +2,8 @@ const { API_ATG_GET_DATA } = require('../../../../api/ATG_API')
 
 const axios = require('axios');
 
+const TOKEN_AUTH = `eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYXAiLCJqdGkiOiJmMGRlNzgzMC1jZjFkLTRjM2YtODY5My1hNmJkZDA5OWM3MTIiLCJpYXQiOiI2LzIxLzIwMjMgMToxNDozOCBBTSIsIm5hbWVpZCI6IlNBUCIsIm5iZiI6MTY4NzMxMDA3OCwiZXhwIjoxNzAyODYyMDc4LCJpc3MiOiJodHRwOi8vbW9iaWxlLWFwcC5waWFjb20uY29tLnZuIiwiYXVkIjoiVmluaERRIn0.y7w1uLN3WbX7QWa0ghy63IOviiToIw9vNCKYsKJvR5SwU68VMZKGM1vOA7khCXYDAAbgQfWjs6UsdVufqKCkPA`;
+
 module.exports.getDataATG = async function (req) {
     const tankTime = req.body.tankTime || '';
     const companyId = req.body.companyId || '';
@@ -9,6 +11,7 @@ module.exports.getDataATG = async function (req) {
     const listTankId = req.body.listTankId || [];
 
     const token = req.body.token || '';
+    // const token = TOKEN_AUTH;
     const server = req.body.server;
 
     let tanks = [];

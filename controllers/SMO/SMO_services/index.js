@@ -1,5 +1,9 @@
 const axios = require('axios');
+<<<<<<< HEAD
 const SMO_ORIGINAL_URL = 'http://smoapiuat.petrolimex.com.vn';
+=======
+const SMO_ORIGINAL_URL = 'http://smoapi.petrolimex.com.vn';
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
 
 const updateInfoSAP = (req, res) => {
     const data = req.body.DATA || [];

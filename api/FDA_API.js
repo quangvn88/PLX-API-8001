@@ -17,12 +17,16 @@ const PLX_BASE_URL = (server) => {
 }
 module.exports.API_INVOICE_SAVE = (server) => {
     const path = "/sap/plx/ZFM_API_INVOICE";
-    return `${PLX_BASE_URL(server)}` + path;
+    const sapClient = server === "dev" ? '?sap-client=300' : '';
+    
+    return `${PLX_BASE_URL(server)}` + path + sapClient;
 };
 
 module.exports.API_INVOICE_CHECK_SAVE = (server) => {
     const path = "/sap/plx/ZFM_INV_CHECK_SAVE";
-    return `${PLX_BASE_URL(server)}` + path;
+    const sapClient = server === "dev" ? '?sap-client=300' : '';
+
+    return `${PLX_BASE_URL(server)}` + path + sapClient;
 };
 
 

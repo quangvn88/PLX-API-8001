@@ -29,7 +29,7 @@
 			<key>metadata</key>
 			<dict>
 				<key>bundle-identifier</key>
-				<string>com.petro.mobileapp</string>
+				<string>fis.es.pb2.petroapp</string>
 				<key>bundle-version</key>
 				<string>1.0</string>
 				<key>kind</key>

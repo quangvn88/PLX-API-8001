@@ -34,8 +34,8 @@ module.exports.authentication = function (req, res) {
         const data = response.data;
         res.json({ success: true, ...data })
     }).catch(function (error) {
-        const resError = error.response;
-        const resStatus = resError.status || 500
+        const resError = error.response || {};
+        const resStatus = resError.status || 500;
         const resData = resError.data ? { success: false, ...resError.data } : { success: false, message: `request faild with ${resError.status}` }
         res.status(resStatus).json(resData)
     });

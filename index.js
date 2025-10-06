@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: false, limit: '100mb' }));
 // for parsing application/json
 app.use(bodyParser.json({ limit: '100mb' }));
 
+<<<<<<< HEAD
 // app.use(express.bodyParser({limit: '50mb'}))
 // for parsing multipart/form-data
 app.use(upload.array());
@@ -49,6 +50,10 @@ app.use(upload.array());
 app.use(express.static(path.join(__dirname, "public")));
 // 2. React app build (nằm trong public/www) => serve dưới /lims/view
 app.use("/app", express.static(path.join(__dirname, "public", "www")));
+=======
+// for parsing multipart/form-data
+app.use(upload.array());
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
 
 //HTTPS
 const options = {
@@ -118,22 +123,36 @@ app.use("/:server/httg/api", writeLogHTTG, checkAuthHTTG, routersHTTG);
 //INTEGRATE - PLXID
 const routersPLXID = require("./routes/PLXID");
 const { checkAuthPLXID, writeLogPLXID } = require("./middleware/writelogPLXID");
+<<<<<<< HEAD
 app.use("/:server/plxid/api", writeLogPLXID, checkAuthPLXID, routersPLXID);
+=======
+app.use("/:server/plxid/api", writeLogPLXID, checkAuthPLXID, routersPLXID)
+
+
+//PLX Public
+const routersPLXService = require("./routes/PLX_SERVICE")
+const { checkAuthPLX, writeLogPLX } = require("./middleware/writeLogPLX");
+app.use("/:server/plx/api", writeLogPLX, checkAuthPLX, routersPLXService)
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
 
 //SMO 
 const { writeLogSMO } = require("./middleware/writelogSMO");
 const routersSMO = require("./routes/SMO")
 app.use("/smo/api", writeLogSMO, routersSMO)
 
+<<<<<<< HEAD
 //QR_CODE
 const routersQRCode = require("./routes/QR_CODE")
 app.use("/api", routersQRCode)
 
+=======
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
 //UBQLV
 // const { writeLogUBQLV } = require("./middleware/writelogUBQLV");
 // const routersUBQLV = require("./routes/UBQLV")
 // app.use("/ubqlv/api", writeLogUBQLV, routersUBQLV)
 
+<<<<<<< HEAD
 //PECO
 const routersPECO = require('./routes/PECO')
 app.use("/:server/peco/api", routersPECO);
@@ -172,10 +191,13 @@ const { writeLogSAP } = require("./middleware/writeLogSAP");
 const routersSAP = require('./routes/SAP');
 app.use("/:server/plx/api", authMiddleware, writeLogSAP, routersSAP);
 
+=======
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
 //Handle Error
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {  
   // This check makes sure this is a JSON parsing issue, but it might be
   // coming from any middleware, not just body-parser:
+<<<<<<< HEAD
   // console.log('error',err);
   // if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
   //   console.error(err);
@@ -186,6 +208,16 @@ app.use((err, req, res, next) => {
   // }
   if (err) {
     console.error('error request', err);
+=======
+
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    console.error(err);
+    return res.sendStatus(400); // Bad request
+  }
+
+  if (err) {
+    console.error(err);
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
     return res.status(500).send('Internal Server Error');
   }
   // next();
@@ -200,8 +232,14 @@ app.listen(PORT, function () {
   console.log("Server listening on port " + PORT);
 });
 
+<<<<<<< HEAD
 // https.createServer(options, app).listen(PORT_HTTPS, function () {
 //   console.log("Server listening on port 443");
 // });
 
 
+=======
+https.createServer(options, app).listen(PORT_HTTPS, function () {
+  console.log("Server listening on port 443");
+});
+>>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
