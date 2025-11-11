@@ -17,6 +17,8 @@ const pushInvoiceStatus = function (req, res) {
     const server = req.body.server || "";
     const envir = req.body.envir || "";
 
+    req.body.FUNC = "ZFM_API_INVOICE_PUSH";
+    
     if (!server) {
         res.senStatus(404);
         return;

@@ -6,7 +6,8 @@ const { getUserAuthSAP } = require('../../../scripts/getUserAuthSAP')
 const updateInvoiceCheck = function (req, res) {
     const invData = req.body.invData || {};
     const server = req.body.server || '';
-
+    req.body.FUNC = "ZFM_INV_CHECK_SAVE";
+    
     const AUTH = getUserAuthSAP(server);
     const url = API_INVOICE_CHECK_SAVE(server);
 

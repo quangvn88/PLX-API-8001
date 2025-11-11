@@ -10,6 +10,7 @@ const updateInvoice = function (req, res) {
     const server = req.body.server || '';    
 
     console.log('test');
+    req.body.FUNC = "ZFM_API_INVOICE";
 
     if (!server) {
         res.sendStatus(404);

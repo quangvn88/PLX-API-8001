@@ -18,7 +18,7 @@ const generateBarCode = async (req, res) => {
             height:      height,
             includetext: true,
             textxalign:  'center',
-            textsize:    3,          
+            textsize:    6,          
             backgroundcolor: 'FFFFFF'
         });
 

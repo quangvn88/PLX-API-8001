@@ -18,7 +18,6 @@ router.get("/", (req, res) => {
 //   res.render("home/guide");
 // });
 
-<<<<<<< HEAD
 router.get("/:server/map", MapController.showMap);
 router.get("/download/android", DownloadController.downloadApp);
 router.get('/download-file-bi', DownloadFileBI.downloadFileBI)
@@ -26,14 +25,6 @@ router.get('/download-file-bi', DownloadFileBI.downloadFileBI)
 
 router.post('/pdf-coordinates', PDFCoordinates.extractCoordinatesPDF)
 router.post('/vcb-exchange-rates', controllersVCB.getExchangeRates)
-=======
-// router.get("/load-test", (req,res)=>{
-
-// });
-
-router.get("/:server/map", MapController.showMap);
-router.get("/download/android/:version", DownloadController.downloadApp);
->>>>>>> 11898daf887c9b86780f8f20c5bcfcd650bd8ec6
 
 
 

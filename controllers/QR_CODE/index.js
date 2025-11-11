@@ -1,43 +1,42 @@
 const Jimp = require("jimp");
-const qrCode = require("qrcode");
+const QRCode = require("qrcode");
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && !isNaN(n - 0)
 }
 
 const generateQRCode = async (req, res) => {
-    const chl = req.query.chl || "";
-    const chs = req.query.chs || 100;
+  const data = req.query.data || "";
+  const width = parseInt(req.query.width) || 100;
+  console.log("Generating QR code...", data, width);
 
-    if (!chl) {
-        res.status(500).json({ message: "chl param is required" })
-        return;
-    }
+  if (!data) {
+    return res.status(400).json({ message: "data param is required" });
+  }
 
-    const width = isNumber(chs) ? chs : 100;
+  try {
+    // Tạo QR code (buffer PNG)
+    const qrCodeBuffer = await QRCode.toBuffer(data, {
+      errorCorrectionLevel: "H",
+      margin: 1, // giảm viền để QR nhỏ gọn hơn
+    });
 
-    try {
-        const qrData = chl;
-        const qrCodeOptions = {            
-            errorCorrectionLevel: 'H',            
-            width: width
-        };
+    // Đọc ảnh bằng Jimp
+    const qrCodeImage = await Jimp.read(qrCodeBuffer);
 
-        // Generate the QR code as a PNG image
-        const qrCodeBuffer = await qrCode.toBuffer(qrData, qrCodeOptions);
+    // Resize ảnh theo width yêu cầu (tự động scale chiều cao)
+    qrCodeImage.resize(width, Jimp.AUTO);
 
-        // Convert the PNG image to BMP format
-        const qrCodeImage = await Jimp.read(qrCodeBuffer);
-        const bmpBuffer = await qrCodeImage.getBufferAsync(Jimp.MIME_BMP);
+    // Xuất ra BMP
+    const bmpBuffer = await qrCodeImage.getBufferAsync(Jimp.MIME_BMP);
 
-        // Set the response content type to "image/bmp"
-        res.set('Content-Type', 'image/bmp');
-        res.send(bmpBuffer);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Error generating QR code' });
-    }
-}
+    res.set("Content-Type", "image/bmp");
+    res.send(bmpBuffer);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error generating QR code" });
+  }
+};
 
 const generateQRWithLogo = async (req, res) => {
     const data = req.query.data || "";
@@ -56,7 +55,7 @@ const generateQRWithLogo = async (req, res) => {
     
     try {
         // Tạo QR trước
-        const qrBuffer = await qrCode.toBuffer(qrData, qrCodeOptions);
+        const qrBuffer = await QRCode.toBuffer(qrData, qrCodeOptions);
 
         // Đọc QR bằng Jimp
         const qrImage = await Jimp.read(qrBuffer);
