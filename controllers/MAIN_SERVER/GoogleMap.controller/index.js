@@ -1,24 +1,21 @@
 const { getMap } = require("./getMap.controller");
-const { API_PLX } = require("../../../api/PLX_API");
-const { getUserAuthSAP } = require("../../../scripts/getUserAuthSAP");
+const { SAP_URL } = require("../../../api/PLX_API");
 
 module.exports.showMap = async (req, res) => {
   const server = req.params.server;
   const id = req.query.id;
-
-  const SAP_AUTH = getUserAuthSAP(server);
-
-  const urlServer = API_PLX(server);
+  const urlServer = SAP_URL("prd", "ZFM_GET_MAP");
 
   const map = await getMap({
-    id: id,
-    username: SAP_AUTH.username,
-    password: SAP_AUTH.password,
-    urlServer: urlServer,
+    id,
+    server,
+    urlServer,
   });
 
-  // console.log(map)
+  console.log("MAP");
+
   if (map.success) {
+    console.log("map");
     res.render("home/map", {
       src: map.src,
     });

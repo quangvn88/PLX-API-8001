@@ -4,6 +4,11 @@ module.exports.getUserAuthSAP = (server) => {
         password: process.env.SAP_PRD_PASS
     }
 
+    const USER_PRD_DIA = {
+        username: process.env.SAP_PRD_DIA_USER,
+        password: process.env.SAP_PRD_DIA_PASS
+    }
+
     const USER_QAS = {
         username: process.env.SAP_QAS_USER,
         password: process.env.SAP_QAS_PASS
@@ -15,11 +20,13 @@ module.exports.getUserAuthSAP = (server) => {
     }
 
     return {
-        username: server === 'qas' ? USER_QAS.username
+        username: server === 'prd_dia' ? USER_PRD_DIA.username
+            : server === 'qas' ? USER_QAS.username
             : server === 'prd' ? USER_PRD.username
-                : USER_DEV.username,
-        password: server === 'qas' ? USER_QAS.password
+            : USER_DEV.username,
+        password: server === 'prd_dia' ? USER_PRD_DIA.password
+            : server === 'qas' ? USER_QAS.password
             : server === 'prd' ? USER_PRD.password
-                : USER_DEV.password,
+            : USER_DEV.password
     }
 }

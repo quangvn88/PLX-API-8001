@@ -5,6 +5,7 @@ dotenv.config({ path: path.resolve(__dirname, ".env") });
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const apiLimiter = require("./middleware/apiLimiter");
 const upload = require("./config/multer");
 const connectDB = require("./config/db");
 const { writeLogAPI } = require("./middleware/writeLogAPI");
@@ -30,6 +31,7 @@ app.set("view engine", "pug");
 app.set("views", "./views");
 
 // Routes chính
+app.use(apiLimiter);
 app.use(require("./routes"));
 
 // View web app

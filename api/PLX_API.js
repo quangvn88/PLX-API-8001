@@ -1,20 +1,25 @@
-const { PLX_ORIGINAL_URL } = require('./index')
+const { PLX_ORIGINAL_URL } = require("./index");
 
-const PLX_BASE_URL = (server) => {
-    switch (server) {
-        case "dev":
-            return PLX_ORIGINAL_URL.DEV;
-        case "qas":
-            return PLX_ORIGINAL_URL.QAS;
-        case "prd":
-            return PLX_ORIGINAL_URL.PRD;
-        default:
-            return PLX_ORIGINAL_URL.DEV;
-    }
-}
+const BASE_URL_MAP = {
+  dev: PLX_ORIGINAL_URL.DEV,
+  qas: PLX_ORIGINAL_URL.QAS,
+  prd: PLX_ORIGINAL_URL.PRD,
+  prd_dia: PLX_ORIGINAL_URL.PRD,
+};
 
-module.exports.SAP_URL = (server, fm) => {
-    const path = "/sap/plx/" + fm;
-    const url = server == "dev" ? PLX_BASE_URL(server) + path + "?sap-client=300" : PLX_BASE_URL(server) + path;
-    return url;
+const PLX_BASE_URL = (server = "dev") =>
+  BASE_URL_MAP[server] || PLX_ORIGINAL_URL.DEV;
+
+const SAP_URL = (server = "dev", fm) => {
+	if (!fm) {
+		throw new Error("FM name is required");
+	}
+	
+	const path = `/sap/plx/${fm}`;
+	const clientParam = server === "dev" ? "?sap-client=300" : "";
+	return `${PLX_BASE_URL(server)}${path}${clientParam}`;
+};
+
+module.exports = {
+  SAP_URL
 };
