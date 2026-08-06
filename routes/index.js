@@ -97,13 +97,21 @@ router.use(
   require("./LIMS"),
 );
 
+// LIMS
+router.use(
+  "/:server/abclims/plx/api",
+  writeLogLIMS,
+  checkAuthLIMS,
+  require("./LIMS"),
+);
+
 // AUTHOR - login
-router.use("/:server/plx/login", require("./AUTHOR"));
+router.use("/:server/sap/login", require("./AUTHOR"));
 
 // SAP
 const { writeLogSAP } = require("../middleware/writeLogSAP");
 const { authMiddleware } = require("../middleware/authMiddleware");
-router.use("/:server/plx/api", authMiddleware, writeLogSAP, require("./SAP"));
+router.use("/:server/sap/api", authMiddleware, writeLogSAP, require("./SAP"));
 
 // UTILS
 router.use("/api", require("./UTILS"));

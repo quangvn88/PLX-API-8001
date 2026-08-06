@@ -4,8 +4,7 @@ const { getToken } = require("./getToken");
 const { callLIMSAPI } = require("./callLIMSApi");
 const { callFMSAP } = require("../PLX/callFMSAP");
 const apiSMO = require("../SMO/SMO_services");
-const { getDhnFileModel } = require("./getDhnFileModel");
-const { generateFromTemplate } = require("../LDS/generateDocxTemplate");
+const { generateDocxFromTemplate, generateXlsxFromTemplate, saveTemplate, downloadTemplate } = require("../LDS/generateTemplate");
 
 const handleRequest = function (req, res) {    
     const server = req.params.server || "";
@@ -45,10 +44,14 @@ const handleRequest = function (req, res) {
             return getAPILog(req, res);
         case "ZFM_API_LOG_FIELD":
             return getAPILogField(req, res);
-        case "ZFM_DHN_FILE_BASE64":
-            return getDhnFileModel(req, res);
-        case "ZFM_CM_PRINT":
-            return generateFromTemplate(req, res);
+        case "ZFM_CM_PRINT_DOCX":
+            return generateDocxFromTemplate(req, res);
+        case "ZFM_CM_PRINT_XLSX":
+            return generateXlsxFromTemplate(req, res);
+        case "ZFM_CM_UPLOAD_TEMPLATE":
+            return saveTemplate(req, res);
+        case "ZFM_CM_DOWNLOAD_TEMPLATE":
+            return downloadTemplate(req, res);
         default:
             return callFMSAP(req, res);
     }
